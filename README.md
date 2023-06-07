@@ -5,7 +5,7 @@ projeto da criação de uma iogurteira
 ESTRUTURA:
 
 
-![](iogurteira.png)
+![](iogurteira.drawio.png )
 
 
 
