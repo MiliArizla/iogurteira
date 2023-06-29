@@ -1,3 +1,11 @@
+
+/*
+Sensor: DS18B20
+Library: OneWire.h
+<DallasTemperature.h>
+*/
+
+
 //PINS
 const int START_PIN = 1; 
 const int pin_mv = 9; // PWM
@@ -85,7 +93,7 @@ void setup() {
 
 void loop() {
   start = digitalRead(START_PIN);
-  if (start){begin = 1};
+  if (start){begin = 1;};
   
   // put your main code here, to run repeatedly:
   if (begin){
