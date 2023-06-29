@@ -139,7 +139,7 @@ void loop() {
       if (time.time() - time_45 > 6*60*60*1000 ){ //depois de 6 horas
         third_loop = 0;
         buzzer();
-        start = 0;
+        begin = 0;
       }     
     }
   }
