@@ -109,7 +109,7 @@ void loop() {
       }
       if (time.time() - time_95 > 5*60*1000 ){ //depois de 5 minutos
         first_loop = 0;
-        second_loop =1
+        second_loop = 1;
       }     
     }
     
@@ -125,7 +125,7 @@ void loop() {
         mix_button = digitalRead(MIX_PIN);
         if(mix_button){
           second_loop = 0;
-          third_loop = 1
+          third_loop = 1;
         }
     }
 
