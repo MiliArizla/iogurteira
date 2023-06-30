@@ -12,7 +12,7 @@ const int pin_mv = 9; // PWM
 const int pin_pv = A4; //Pino de entrada para o variável medida
 const int pin_sp = A0; //Pino de entrada para o setpoint POTENCIOMETRO
 const int MIX_PIN = 2;
-float initial_temp // temperatura inicial
+float initial_temp; // temperatura inicial
 
 //PID
 float interrupt_s = 1/1000; // tempo do interrupt em s
