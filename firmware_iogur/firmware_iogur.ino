@@ -93,7 +93,7 @@ void setup() {
 
 void loop() {
   start = digitalRead(START_PIN);
-  if (start){begin = 1;};
+  if (start){begin = 1;}
   
   // put your main code here, to run repeatedly:
   if (begin){
