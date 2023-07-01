@@ -107,7 +107,7 @@ void loop() {
         time_95 = time.time();  // calcula tempo
         loop_once_first = 0;      
       }
-      if (time.time() - time_95 > 5*60*1000 ){ //depois de 5 minutos
+      if (time.time() - time_95 > 1*60*1000 ){ //depois de 5 minutos
         first_loop = 0;
         second_loop = 1;
       }     
