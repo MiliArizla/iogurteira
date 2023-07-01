@@ -113,7 +113,7 @@ void loop() {
       }     
     }
     
-    loop_once_first = 1;
+    loop_once_second = 1;
     if(second_loop){
         
         PID(45);
