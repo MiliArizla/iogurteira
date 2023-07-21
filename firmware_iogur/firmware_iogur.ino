@@ -44,7 +44,7 @@ float PID(float temp_aim):
     Função que mantem a temperatura em no valor recebido, 
     aquece até lá se necessário 
     */
-      spValue = analogRead(pin_sp); //leitura do valor de potenciometro
+      spValue = temp_aim;
       pvValue = analogRead(pin_pv); //leitura do valor de setpoint (Sensor temp)
 
       erro = pvValue - spValue;
@@ -104,10 +104,10 @@ void loop() {
       PID(95);
       // se a temperatura estiver entre 95
       if (temp > 95 && loop_once_first){
-        time_95 = time.time();  // calcula tempo
+        time_95 = millis();  // calcula tempo
         loop_once_first = 0;      
       }
-      if (time.time() - time_95 > 1*60*1000 ){ //depois de 5 minutos
+      if (millis() - time_95 > 1*60*1000 ){ //depois de 5 minutos
         first_loop = 0;
         second_loop = 1;
       }     
@@ -132,11 +132,11 @@ void loop() {
     if(third_loop){
       PID(45);
       if (loop_once_third){
-        time_45 = time.time();  // calcula tempo
+        time_45 = millis();  // calcula tempo
         loop_once_third = 0;      
       }
 
-      if (time.time() - time_45 > 6*60*60*1000 ){ //depois de 6 horas
+      if (millis() - time_45 > 6*60*60*1000 ){ //depois de 6 horas
         third_loop = 0;
         buzzer();
         begin = 0;
