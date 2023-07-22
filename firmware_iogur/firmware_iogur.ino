@@ -10,7 +10,7 @@ Library: OneWire.h
 // #include <pincapsense.h>
 
 //PINS
-const int START_PIN = 1; 
+const int START_PIN = 4; 
 const int pin_mv = 9; // PWM
 const int pin_pv = A4; //Pino de entrada para o variável medida
 const int MIX_PIN = 2;
@@ -98,14 +98,21 @@ float readTemperature() {
   return sensors.getTempCByIndex(0); // Le a temperatura em Celsius 
 }
 
-void buzzer(int min){
-  int tempo = 400;
-  tone(BUZZER_PIN,440,tempo); //LA
-  tone(BUZZER_PIN,294,tempo); //RE
-  tone(BUZZER_PIN,349,tempo/2); // FA
+void buzzer(int val){
+  int tempo = 4000;
+  if(val == 0){
+    tone(BUZZER_PIN,294,tempo); //RE
+  }
+  if(val == 1){
+    tone(BUZZER_PIN,440,tempo); //LA
+  }
+  if(val == 2){
+    tone(BUZZER_PIN,349,tempo/2); // FA
+  }
 }
 
 void setup() {
+  Serial.begin(9600);
   // inicialization pins
   pinMode(START_PIN, INPUT); //START switch pin
   pinMode(MIX_PIN,INPUT);
@@ -117,13 +124,14 @@ void setup() {
 
 void loop() {
   start = digitalRead(START_PIN);
+  // Serial.println(start);
   if (start){begin = 1;}
   
   // put your main code here, to run repeatedly:
   if (begin){
     
     float temp = readTemperature();
-    
+    Serial.println(temp);
     if(first_loop){
       PID(95);
       // se a temperatura estiver entre 95
@@ -143,7 +151,7 @@ void loop() {
         PID(45);
         
         if(loop_once_second && temp < 46){
-          buzzer(3);
+          buzzer(0);
           loop_once_second = 0;
         }
         mix_button = digitalRead(MIX_PIN);
@@ -162,10 +170,9 @@ void loop() {
 
       if (millis() - time_45 > 6*60*60*1000 ){ //depois de 6 horas
         third_loop = 0;
-        buzzer(5);
+        buzzer(1);
         begin = 0;
       }     
     }
   }
 }
-
