@@ -41,9 +41,10 @@ const int valor_cap;
 //GENERAL CONTROL
 bool start = 0; 
 bool first_loop = 1;
-bool second_loop = 1;
-bool third_loop = 1;
+bool second_loop = 0;
+bool third_loop = 0;
 
+float temp = 0;
 float time_95;
 float time_45;
 bool loop_once_first = 1;
@@ -61,6 +62,7 @@ float PID(float temp_aim)
     Função que mantem a temperatura em no valor recebido, 
     aquece até lá se necessário 
     */
+    // Serial.println(temp_aim);
       float spValue = temp_aim; //leitura do valor de potenciometro
       float pvValue = analogRead(pin_pv); //leitura do valor de setpoint (Sensor temp)
 
@@ -130,30 +132,34 @@ void loop() {
   // put your main code here, to run repeatedly:
   if (begin){
     
-    float temp = readTemperature();
-    Serial.println(temp);
     if(first_loop){
+      temp = readTemperature();
       PID(95);
+      Serial.print(" temp: ");
+      Serial.println(temp);
       // se a temperatura estiver entre 95
-      if (temp > 95 && loop_once_first){
+      if (temp > 29 && loop_once_first){
         time_95 = millis();  // calcula tempo
         loop_once_first = 0;      
       }
-      if (millis() - time_95 > 1*60*1000 ){ //depois de 5 minutos
+
+      if ((millis() - time_95 > 1*60*1000) && !loop_once_first){ //depois de 5 minutos
         first_loop = 0;
         second_loop = 1;
+        loop_once_second = 1;
       }     
     }
     
-    loop_once_second = 1;
+    
     if(second_loop){
-        
+        temp = readTemperature();
         PID(45);
         
         if(loop_once_second && temp < 46){
           buzzer(0);
           loop_once_second = 0;
         }
+
         mix_button = digitalRead(MIX_PIN);
         if(mix_button){
           second_loop = 0;
@@ -162,13 +168,14 @@ void loop() {
     }
 
     if(third_loop){
+      temp = readTemperature();
       PID(45);
       if (loop_once_third){
         time_45 = millis();  // calcula tempo
         loop_once_third = 0;      
       }
 
-      if (millis() - time_45 > 6*60*60*1000 ){ //depois de 6 horas
+      if (millis() - time_45 > 6*60*60*1000 && !loop_once_third){ //depois de 6 horas
         third_loop = 0;
         buzzer(1);
         begin = 0;
