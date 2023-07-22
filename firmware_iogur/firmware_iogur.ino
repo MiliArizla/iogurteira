@@ -7,13 +7,12 @@ Library: OneWire.h
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
-#include <pincapsense.h>
+// #include <pincapsense.h>
 
 //PINS
 const int START_PIN = 1; 
 const int pin_mv = 9; // PWM
 const int pin_pv = A4; //Pino de entrada para o variável medida
-const int pin_sp = A0; //Pino de entrada para o setpoint POTENCIOMETRO
 const int MIX_PIN = 2;
 const int DS18B20_PIN = 3; // Pino do sensor
 const int BUZZER_PIN = 10; // Pino do buzzer
@@ -45,17 +44,25 @@ bool first_loop = 1;
 bool second_loop = 1;
 bool third_loop = 1;
 
+float time_95;
+float time_45;
+bool loop_once_first = 1;
+bool loop_once_second = 0;
+bool loop_once_third = 0;
+bool begin = 0;
+bool mix_button = 0;
+
 OneWire oneWire(DS18B20_PIN);
 DallasTemperature sensors(&oneWire);
 
-float PID(float temp_aim):
+float PID(float temp_aim)
   {
     /*
     Função que mantem a temperatura em no valor recebido, 
     aquece até lá se necessário 
     */
-      spValue = analogRead(pin_sp); //leitura do valor de potenciometro
-      pvValue = analogRead(pin_pv); //leitura do valor de setpoint (Sensor temp)
+      float spValue = temp_aim; //leitura do valor de potenciometro
+      float pvValue = analogRead(pin_pv); //leitura do valor de setpoint (Sensor temp)
 
       erro = pvValue - spValue;
         
@@ -103,17 +110,9 @@ void setup() {
   pinMode(START_PIN, INPUT); //START switch pin
   pinMode(MIX_PIN,INPUT);
   // temperature pins
-  pinMode(TEMP_PIN_I, INPUT); //ON switch pin
-  pinMode(TEMP_PIN_O, INPUT); //ON switch pin
+  pinMode(START_PIN, INPUT); //ON switch pin
   // Inicializando o sensor
   sensors.begin();
-  float time_95;
-  float time_45;
-  bool loop_once_first = 1;
-  bool loop_once_second = 0;
-  bool loop_once_third = 0;
-  bool begin = 0;
-  bool mix_button = 0;
 }
 
 void loop() {
